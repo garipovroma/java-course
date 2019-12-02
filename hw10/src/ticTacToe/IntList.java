@@ -1,8 +1,11 @@
+package ticTacToe;
+
 import java.util.*;
 
 public class IntList {
     private int pos = 0;
-    private int[] mas = new int[1];        
+    private int[] mas = new int[1];
+    IntList() { }
     IntList(int x) {
         add(x);
     }
@@ -40,5 +43,8 @@ public class IntList {
     }
     public int getLastElement() {
         return mas[pos - 1];
-    }    
+    }
+    public void clear() {
+        pos = 0;
+    }
 }

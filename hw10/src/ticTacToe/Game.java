@@ -1,27 +1,28 @@
 package ticTacToe;
 
+import java.util.List;
+
 /**
  * @author Georgiy Korneev (kgeorgiy@kgeorgiy.info)
  */
 public class Game {
     private final boolean log;
-    private final Player player1, player2;
+    private final List<Player> players;
 
-    public Game(final boolean log, final Player player1, final Player player2) {
+    public Game(final boolean log, List<Player> list) {
         this.log = log;
-        this.player1 = player1;
-        this.player2 = player2;
+        this.players = list;
     }
 
     public int play(Board board) {
+        if (players.size() < 2) {
+            return -2;
+        }
         while (true) {
-            final int result1 = move(board, player1, 1);
-            if (result1 != -1) {
-                return result1;
-            }
-            final int result2 = move(board, player2, 2);
-            if (result2 != -1) {
-                return result2;
+            for (int i = 0; i < players.size(); i++) {
+                final int result = move(board, players.get(i), i + 1);
+                if (result != -1)
+                    return result;
             }
         }
     }

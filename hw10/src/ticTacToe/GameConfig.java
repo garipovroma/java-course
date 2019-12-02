@@ -44,8 +44,14 @@ public class GameConfig {
             }
         } catch (FileNotFoundException e) {
             System.out.println("Config not found");
-        } catch (IOException e) {
+            System.exit(0);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("String length should be 4");
+            System.exit(0);
+        }
+        catch (IOException e) {
             System.out.println("There are mistakes in your config, rewrite it");
+            System.exit(0);
         }
     }
     public List <Player> getPlayers() {

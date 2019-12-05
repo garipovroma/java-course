@@ -7,16 +7,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import static java.lang.Integer.min;
+
 public class GameConfig {
     private List<Player> players;
     private int n, m, k, p;
     private boolean log;
-    public GameConfig() {
-        players = new ArrayList();
+    public GameConfig() throws IOException {
+        players = new ArrayList<>();
         try (Scanner in = new Scanner(new File("config.cfg"));) {
             n = in.nextInt();
             m = in.nextInt();
             k = in.nextInt();
+            if (k > min(n, m)) {
+                throw new IOException("k can't be greater than min(n, m)");
+            }
             int f = in.nextInt();
             if (f == 1) {
                 log = true;
@@ -38,20 +43,19 @@ public class GameConfig {
                 }
                 p++;
             }
-            if (p < 2 || p > 4) {
-                System.out.println("Count of players is unavailable, edit config");
-                System.exit(0);
+            if (p < 2) {
+                //System.out.println("Count of players is unavailable, edit config");
+                throw new IOException("Count of players is unavailable, edit config");
+                // System.exit(0);
             }
         } catch (FileNotFoundException e) {
-            System.out.println("Config not found");
-            System.exit(0);
+            throw new FileNotFoundException("Config not found\nConfig Format : \n n m k l \n ^^^^" +
+                    "\n l = 1 - logging is ON, 0 - OFF\n ^ = {R, S, H, *} - type of player");
+
         } catch (IndexOutOfBoundsException e) {
-            System.out.println("String length should be 4");
-            System.exit(0);
-        }
-        catch (IOException e) {
-            System.out.println("There are mistakes in your config, rewrite it");
-            System.exit(0);
+            throw new IndexOutOfBoundsException("Players-String length should be 4");
+        } catch (IOException e) {
+            throw new IOException("There are mistakes in your config, rewrite it");
         }
     }
     public List <Player> getPlayers() {

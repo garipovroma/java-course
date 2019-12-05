@@ -20,10 +20,14 @@ public class ServerBoard implements Board, Position {
     private final Cell[][] cells;
     private boolean ok[][];
     protected Cell turn;
-    private int n, m, k, empty, p;
+    private int n, m, k, empty;
     private boolean writeIndexes;
-
+    private IntList cur[] = new IntList[4];
     public ServerBoard(int n, int m, int k, int p) {
+        cur[0] = new IntList();
+        cur[1] = new IntList();
+        cur[2] = new IntList();
+        cur[3] = new IntList();
         this.n = n;
         this.m = m;
         this.k = k;
@@ -100,14 +104,14 @@ public class ServerBoard implements Board, Position {
         if (!isValid(move)) {
             return Result.LOSE;
         }
+        cur[0].clear();
+        cur[1].clear();
+        cur[2].clear();
+        cur[3].clear();
         cells[move.getRow()][move.getColumn()] = move.getValue();
         int x = move.getRow();
         int y = move.getColumn();
-        IntList cur[] = new IntList[4];
-        cur[0] = new IntList();
-        cur[1] = new IntList();
-        cur[2] = new IntList();
-        cur[3] = new IntList();
+
         for (int i = max(0, x - k + 1); i <= min(n - 1, x + k - 1); i++) {
             if (cells[i][y] == turn) {
                 cur[0].add(1);

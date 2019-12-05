@@ -8,7 +8,7 @@ import static java.lang.Math.*;
 /**
  * @author Georgiy Korneev (kgeorgiy@kgeorgiy.info)
  */
-public class ServerBoard implements Board, Position {
+public class ServerBoard implements Board {
     private static final Map<Cell, Character> SYMBOLS = Map.of(
             Cell.X, 'X',
             Cell.O, 'O',
@@ -91,7 +91,7 @@ public class ServerBoard implements Board, Position {
 
     @Override
     public Position getPosition() {
-        return this;
+        return new MnkBoard(this);
     }
 
     @Override
@@ -99,7 +99,6 @@ public class ServerBoard implements Board, Position {
         return turn;
     }
 
-    @Override
     public Result makeMove(final Move move) {
         if (!isValid(move)) {
             return Result.LOSE;
@@ -175,14 +174,12 @@ public class ServerBoard implements Board, Position {
     public boolean inField(int x, int y) {
         return (x >= 0 && x < n && y >= 0 && y < m && ok[x][y]);
     }
-    @Override
     public boolean isValid(final Move move) {
         return inField(move.getRow(), move.getColumn())
                 && cells[move.getRow()][move.getColumn()] == Cell.E
                 && turn == getCell();
     }
 
-    @Override
     public Cell getCell(final int r, final int c) {
         return cells[r][c];
     }

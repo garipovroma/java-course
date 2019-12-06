@@ -1,8 +1,5 @@
 package ticTacToe;
 
-/**
- * @author Georgiy Korneev (kgeorgiy@kgeorgiy.info)
- */
 public class SequentialPlayer implements Player {
     private int n, m, k;
     public SequentialPlayer(int n, int m, int k) {

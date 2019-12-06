@@ -2,9 +2,6 @@ package ticTacToe;
 
 import java.util.List;
 
-/**
- * @author Georgiy Korneev (kgeorgiy@kgeorgiy.info)
- */
 public class Game {
     private final boolean log;
     private final List<Player> players;

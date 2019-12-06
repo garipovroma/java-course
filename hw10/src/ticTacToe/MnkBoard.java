@@ -4,8 +4,8 @@ import java.util.List;
 
 public class MnkBoard implements Position {
     private ServerBoard server;
-    public MnkBoard(int n, int m, int k, int p) {
-        server = new ServerBoard(n, m, k, p);
+    public MnkBoard(int n, int m, int k, int p, int fieldCode) {
+        server = new ServerBoard(n, m, k, p, fieldCode);
     }
     public MnkBoard(ServerBoard server) {
         this.server = server;

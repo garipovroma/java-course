@@ -1,8 +1,5 @@
 package ticTacToe;
 
-/**
- * @author Georgiy Korneev (kgeorgiy@kgeorgiy.info)
- */
 public final class Move {
     private final int row;
     private final int column;

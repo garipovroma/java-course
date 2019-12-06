@@ -3,15 +3,14 @@ package ticTacToe;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 import static java.lang.Integer.min;
 
 public class GameConfig {
     private List<Player> players;
     private int n, m, k, p;
+    private int fieldCode;
     private boolean log;
     public GameConfig() throws IOException {
         players = new ArrayList<>();
@@ -19,10 +18,18 @@ public class GameConfig {
             n = in.nextInt();
             m = in.nextInt();
             k = in.nextInt();
+
             if (k > min(n, m)) {
-                throw new IOException("k can't be greater than min(n, m)");
+                throw new IOException("There are mistakes in your config, edit it");
+            }
+            if (n * m > 2000) {
+                throw new IOException("There are mistakes in your config, edit it");
             }
             int f = in.nextInt();
+            fieldCode = in.nextInt();
+            if (n != m && fieldCode == 1) {
+                throw new IOException("There are mistakes in your config, edit it. If fieldCode = 1, n should be = m");
+            }
             if (f == 1) {
                 log = true;
             } else {
@@ -40,22 +47,25 @@ public class GameConfig {
                     players.add(new HumanPlayer(n, m, k));
                 } else if (s.charAt(i) == 'S') {
                     players.add(new SequentialPlayer(n, m, k));
+                } else {
+                    throw new IOException("Players string can contains only R S H and *");
                 }
                 p++;
             }
             if (p < 2) {
-                //System.out.println("Count of players is unavailable, edit config");
-                throw new IOException("Count of players is unavailable, edit config");
-                // System.exit(0);
+                throw new IOException("There are mistakes in your config, edit it");
             }
         } catch (FileNotFoundException e) {
-            throw new FileNotFoundException("Config not found\nConfig Format : \n n m k l \n ^^^^" +
-                    "\n l = 1 - logging is ON, 0 - OFF\n ^ = {R, S, H, *} - type of player");
+            throw new FileNotFoundException("Config not found\nConfig Format : \n n m k l fieldCode\n ^^^^" +
+                    "\n l = 1 - logging is ON, 0 - OFF\n ^ = {R, S, H, *} - type of player" +
+                    "\n fieldCode = 0 -> Square\nfieldCode = 1 -> Rhombus");
 
-        } catch (IndexOutOfBoundsException e) {
-            throw new IndexOutOfBoundsException("Players-String length should be 4");
-        } catch (IOException e) {
-            throw new IOException("There are mistakes in your config, rewrite it");
+        } catch (StringIndexOutOfBoundsException e) {
+            throw new StringIndexOutOfBoundsException("There are mistakes in your config, edit it");
+        } catch (InputMismatchException e) {
+            throw new InputMismatchException("There are mistakes in your config, edit it");
+        } catch (NoSuchElementException e) {
+            throw new NoSuchElementException("There are mistakes in your config, edit it");
         }
     }
     public List <Player> getPlayers() {
@@ -72,6 +82,9 @@ public class GameConfig {
     }
     public int getP() {
         return this.p;
+    }
+    public int getFieldCode() {
+        return this.fieldCode;
     }
     public boolean getLog() {
         return this.log;

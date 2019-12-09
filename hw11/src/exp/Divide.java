@@ -4,7 +4,7 @@ public class Divide extends AbstractOperator implements BinaryExpression {
     private MainExpression left,right;
     private int priority = 2;
     public Divide (MainExpression left, MainExpression right) {
-        super(left, right, "/", true, true);
+        super(left, right, "/", false, true);
         this.left = left;
         this.right = right;
     }

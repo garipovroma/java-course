@@ -2,17 +2,17 @@ package exp;
 
 import java.util.Objects;
 
-public abstract class AbstractOperator {
+public abstract class AbstractOperator implements MainExpression{
     private MainExpression left, right;
     private String operationSym;
-    private boolean needRight;
-    private boolean needLeft;
-    public AbstractOperator(MainExpression left, MainExpression right, String sym, boolean needRight, boolean needLeft) {
+    private boolean isDivide;
+    private boolean isSubtract;
+    public AbstractOperator(MainExpression left, MainExpression right, String sym, boolean isSubtract, boolean isDivide) {
         this.left = left;
         this.right = right;
         this.operationSym = sym;
-        this.needRight = needRight;
-        this.needLeft = needLeft;
+        this.isSubtract = isSubtract;
+        this.isDivide = isDivide;
     }
     public abstract int makeOperation(int left, int right);
     public String toString() {
@@ -23,27 +23,50 @@ public abstract class AbstractOperator {
     public String toMiniString() {
         String left = this.left.toMiniString();
         String right = this.right.toMiniString();
-        int lPrior = this.left.getPriority();
-        int rPrior = this.right.getPriority();
+        int p1 = this.left.getPriority();
+        int p2 = this.right.getPriority();
         boolean f1 = this.left instanceof AbstractOperator;
         boolean f2 = this.right instanceof AbstractOperator;
-        String result = "";
-        if (f1 && f2 && lPrior != rPrior) {
-            if (lPrior > rPrior) {
-                result = "(" + left + ") " + operationSym + " " + right;
-            } else if (lPrior < rPrior) {
-                result = left + " " + operationSym + " (" + right + ")";
-            } else if (((AbstractOperator)this.right).needRight) {
-                result = left + " " + operationSym + " (" + right + ")";
-            } else if (((AbstractOperator)this.left).needLeft) {
-                result = "(" + left + ") " + operationSym + " " + right;
+        String leftStr = left, rightStr = right;
+        if (f1 && f2) {
+            if (p1 == p2) {
+                if (this.isSubtract && this.getPriority() == this.left.getPriority()) {
+                    rightStr = "(" + right + ")";
+                }
+                if (this.isDivide) {
+                    rightStr = "(" + right + ")";
+                    if (this.left.getPriority() != this.getPriority()) {
+                        leftStr = "(" + left + ")";
+                    }
+                }
+                if (!this.isDivide && this.getPriority() == 2) {
+                    if (this.left.getPriority() == 1 || ((AbstractOperator)this.right).isDivide) {
+                        rightStr = "(" + right + ")";
+                        leftStr = "(" + left + ")";
+                    }
+                }
+            } else if (p1 > p2) {
+                if (this.getPriority() == 2) {
+                    rightStr = "(" + right + ")";
+                }
+            } else {
+                if (this.getPriority() == 2 || this.isSubtract) {
+                    leftStr = "(" + left + ")";
+                }
+                if (((AbstractOperator)this.right).getPriority() == 2) {
+                    rightStr = "(" + right + ")";
+                }
             }
-        } else {
-            if (f2 && ((AbstractOperator)this.right).needRight) {
-                result = left + " " + operationSym + " (" + right + ")";
-            } else
-                result = left + " " + operationSym + " " + right;
+        } else if (f1) {
+            if (this.getPriority() == 2 && this.left.getPriority() == 1) {
+                leftStr = "(" + left + ")";
+            }
+        } else if (f2) {
+            if (this.isSubtract && this.getPriority() == 1 || ((AbstractOperator)this.right).isDivide || this.isDivide) {
+                rightStr = "(" + right + ")";
+            }
         }
+        String result = leftStr + " " + operationSym + " " + rightStr;
         return result;
     }
     public int evaluate(int x) {

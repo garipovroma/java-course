@@ -1,6 +1,6 @@
 package exp;
 
-public class Variable implements MainExpression {
+public class Variable implements MainExpression, DoubleExpression {
     private String name;
     public Variable(String name) {
         this.name = name;
@@ -37,5 +37,10 @@ public class Variable implements MainExpression {
         }
         return result;*/
         return name.hashCode();
+    }
+
+    @Override
+    public double evaluate(double x) {
+        return x;
     }
 }

@@ -2,19 +2,35 @@ package exp;
 
 import java.util.Objects;
 
-public class Const implements MainExpression {
+public class Const implements MainExpression, DoubleExpression {
     private int value;
+    private double dValue;
+    private boolean isDouble = false;
     public Const (int value) {
         this.value = value;
+        this.dValue = value;
+    }
+    public Const (double dValue) {
+        this.dValue = dValue;
+        this.value = (int)dValue;
+        this.isDouble = true;
     }
 
     @Override
     public String toString() {
-        return Integer.toString(value);
+        if (this.isDouble) {
+            return Double.toString(dValue);
+        } else {
+            return Integer.toString(value);
+        }
     }
     @Override
     public String toMiniString() {
-        return Integer.toString(value);
+        if (this.isDouble) {
+            return Double.toString(dValue);
+        } else {
+            return Integer.toString(value);
+        }
     }
 
     @Override
@@ -37,5 +53,10 @@ public class Const implements MainExpression {
     @Override
     public int hashCode() {
         return value;
+    }
+
+    @Override
+    public double evaluate(double x) {
+        return this.dValue;
     }
 }

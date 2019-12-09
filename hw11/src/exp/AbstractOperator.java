@@ -2,12 +2,13 @@ package exp;
 
 import java.util.Objects;
 
-public abstract class AbstractOperator implements MainExpression{
+public abstract class AbstractOperator implements MainExpression {
     private MainExpression left, right;
     private String operationSym;
     private boolean isDivide;
     private boolean isSubtract;
-    public AbstractOperator(MainExpression left, MainExpression right, String sym, boolean isSubtract, boolean isDivide) {
+    public AbstractOperator(MainExpression left, MainExpression right, String sym,
+                            boolean isSubtract, boolean isDivide) {
         this.left = left;
         this.right = right;
         this.operationSym = sym;
@@ -15,6 +16,7 @@ public abstract class AbstractOperator implements MainExpression{
         this.isDivide = isDivide;
     }
     public abstract int makeOperation(int left, int right);
+    public abstract double makeOperation(double left, double right);
     public String toString() {
         String left = this.left.toString();
         String right = this.right.toString();
@@ -40,9 +42,12 @@ public abstract class AbstractOperator implements MainExpression{
                     }
                 }
                 if (!this.isDivide && this.getPriority() == 2) {
-                    if (this.left.getPriority() == 1 || ((AbstractOperator)this.right).isDivide) {
+                    if (this.left.getPriority() == 1) {
                         rightStr = "(" + right + ")";
                         leftStr = "(" + left + ")";
+                    }
+                    if (this.left.getPriority() == 2 && ((AbstractOperator)this.right).isDivide) {
+                        rightStr = "(" + right + ")";
                     }
                 }
             } else if (p1 > p2) {
@@ -50,10 +55,10 @@ public abstract class AbstractOperator implements MainExpression{
                     rightStr = "(" + right + ")";
                 }
             } else {
-                if (this.getPriority() == 2 || this.isSubtract) {
+                if (this.getPriority() == 2 || this.isSubtract && this.left.getPriority() != 1) {
                     leftStr = "(" + left + ")";
                 }
-                if (((AbstractOperator)this.right).getPriority() == 2) {
+                if (((AbstractOperator)this.right).getPriority() == 2 && this.getPriority() != 1) {
                     rightStr = "(" + right + ")";
                 }
             }
@@ -62,7 +67,9 @@ public abstract class AbstractOperator implements MainExpression{
                 leftStr = "(" + left + ")";
             }
         } else if (f2) {
-            if (this.isSubtract && this.getPriority() == 1 || ((AbstractOperator)this.right).isDivide || this.isDivide) {
+            if (this.isSubtract && this.getPriority() == 1 && this.right.getPriority() != 2
+                    || ((AbstractOperator)this.right).isDivide && this.getPriority() != 1 || this.isDivide ||
+                    this.getPriority() == 2 && !this.isDivide && this.right.getPriority() == 1) {
                 rightStr = "(" + right + ")";
             }
         }
@@ -72,6 +79,11 @@ public abstract class AbstractOperator implements MainExpression{
     public int evaluate(int x) {
         int left = this.left.evaluate(x);
         int right = this.right.evaluate(x);
+        return makeOperation(left, right);
+    }
+    public double evaluate(double x) {
+        double left = this.left.evaluate(x);
+        double right = this.right.evaluate(x);
         return makeOperation(left, right);
     }
     @Override

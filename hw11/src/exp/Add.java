@@ -4,7 +4,7 @@ import exp.AbstractOperator;
 import exp.BinaryExpression;
 import exp.MainExpression;
 
-public class Add extends AbstractOperator implements BinaryExpression {
+public class Add extends AbstractOperator implements BinaryExpression, DoubleExpression {
     private MainExpression left,right;
     private int priority = 1;
     public Add (MainExpression left, MainExpression right) {
@@ -17,6 +17,12 @@ public class Add extends AbstractOperator implements BinaryExpression {
     public int makeOperation(int left, int right) {
         return left + right;
     }
+
+    @Override
+    public double makeOperation(double left, double right) {
+        return left + right;
+    }
+
     @Override
     public String toString() {
         return super.toString();
@@ -45,5 +51,10 @@ public class Add extends AbstractOperator implements BinaryExpression {
     @Override
     public boolean equals(Object exp) {
         return super.equals(exp);
+    }
+
+    @Override
+    public double evaluate(double x) {
+        return super.evaluate(x);
     }
 }

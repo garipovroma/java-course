@@ -1,6 +1,6 @@
 package exp;
 
-public class Multiply extends AbstractOperator implements BinaryExpression {
+public class Multiply extends AbstractOperator implements BinaryExpression, DoubleExpression {
     private MainExpression left,right;
     private int priority = 2;
     public Multiply (MainExpression left, MainExpression right) {
@@ -13,6 +13,12 @@ public class Multiply extends AbstractOperator implements BinaryExpression {
     public int makeOperation(int left, int right) {
         return left * right;
     }
+
+    @Override
+    public double makeOperation(double left, double right) {
+        return left * right;
+    }
+
     @Override
     public String toString() {
         return super.toString();
@@ -44,5 +50,9 @@ public class Multiply extends AbstractOperator implements BinaryExpression {
     @Override
     public int hashCode() {
         return super.hashCode();
+    }
+    @Override
+    public double evaluate(double x) {
+        return super.evaluate(x);
     }
 }

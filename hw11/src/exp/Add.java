@@ -4,7 +4,7 @@ import exp.AbstractOperator;
 import exp.BinaryExpression;
 import exp.MainExpression;
 
-public class Add extends AbstractOperator implements BinaryExpression, DoubleExpression {
+public class Add extends AbstractOperator implements BinaryExpression, DoubleExpression, TripleExpression {
     private MainExpression left,right;
     private int priority = 1;
     public Add (MainExpression left, MainExpression right) {
@@ -56,5 +56,10 @@ public class Add extends AbstractOperator implements BinaryExpression, DoubleExp
     @Override
     public double evaluate(double x) {
         return super.evaluate(x);
+    }
+
+    @Override
+    public int evaluate(int x, int y, int z) {
+        return super.evaluate(x, y, z);
     }
 }

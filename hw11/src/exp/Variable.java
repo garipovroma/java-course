@@ -1,6 +1,6 @@
 package exp;
 
-public class Variable implements MainExpression, DoubleExpression {
+public class Variable implements MainExpression, DoubleExpression, TripleExpression {
     private String name;
     public Variable(String name) {
         this.name = name;
@@ -20,6 +20,18 @@ public class Variable implements MainExpression, DoubleExpression {
     @Override
     public int evaluate(int x) {
         return x;
+    }
+    @Override
+    public int evaluate (int x, int y, int z) {
+        int result = 0;
+        if (name.equals(("x"))) {
+            result = x;
+        }  else if (name.equals("y")) {
+            result = y;
+        } else if (name.equals(("z"))) {
+            result = z;
+        }
+        return result;
     }
     @Override
     public boolean equals(Object exp) {

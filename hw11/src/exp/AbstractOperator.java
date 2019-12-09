@@ -86,6 +86,11 @@ public abstract class AbstractOperator implements MainExpression {
         double right = this.right.evaluate(x);
         return makeOperation(left, right);
     }
+    public int evaluate(int x, int y, int z) {
+        int left = this.left.evaluate(x, y, z);
+        int right = this.right.evaluate(x, y, z);
+        return makeOperation(left, right);
+    }
     @Override
     public boolean equals(Object exp) {
         //if (exp != null && exp instanceof AbstractOperator) {

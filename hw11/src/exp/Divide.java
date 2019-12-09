@@ -1,6 +1,6 @@
 package exp;
 
-public class Divide extends AbstractOperator implements BinaryExpression, DoubleExpression {
+public class Divide extends AbstractOperator implements BinaryExpression, DoubleExpression, TripleExpression {
     private MainExpression left,right;
     private int priority = 2;
     public Divide (MainExpression left, MainExpression right) {
@@ -54,5 +54,10 @@ public class Divide extends AbstractOperator implements BinaryExpression, Double
     @Override
     public double evaluate(double x) {
         return super.evaluate(x);
+    }
+
+    @Override
+    public int evaluate(int x, int y, int z) {
+        return super.evaluate(x, y, z);
     }
 }

@@ -2,7 +2,7 @@ package exp;
 
 import java.util.Objects;
 
-public class Const implements MainExpression, DoubleExpression {
+public class Const implements MainExpression, DoubleExpression, TripleExpression {
     private int value;
     private double dValue;
     private boolean isDouble = false;
@@ -58,5 +58,10 @@ public class Const implements MainExpression, DoubleExpression {
     @Override
     public double evaluate(double x) {
         return this.dValue;
+    }
+
+    @Override
+    public int evaluate(int x, int y, int z) {
+        return this.value;
     }
 }

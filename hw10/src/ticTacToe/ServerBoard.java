@@ -31,15 +31,10 @@ public class ServerBoard implements Board {
         this.cells = new Cell[n][m];
         this.ok = new boolean[n][m];
         this.fieldCode = fieldCode;
-
         int l = n / 2 - (1 - n % 2), r = n / 2;
         empty = n * m;
         if (fieldCode == 1) {
-            for (int i = 0; i < n; i++) {
-                for (int j = 0; j < m; j++) {
-                    ok[i][j] = false;
-                }
-            }
+            fill(0, n - 1, 0, m - 1, false, ok);
             for (int i = 0; i < n / 2; i++) {
                 for (int j = l; j <= r; j++) {
                     ok[i][j] = true;
@@ -57,20 +52,10 @@ public class ServerBoard implements Board {
                 r--;
             }
         } else if (fieldCode == 0) {
-            for (int i = 0; i < n; i++) {
-                for (int j = 0; j < m; j++) {
-                    ok[i][j] = true;
-                }
-            }
+            fill(0, n - 1, 0, m - 1, true, ok);
         }
 
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                if (!ok[i][j]) {
-                    empty--;
-                }
-            }
-        }
+        calcEmpty();
         for (Cell[] row : cells) {
             Arrays.fill(row, Cell.E);
         }
@@ -78,30 +63,38 @@ public class ServerBoard implements Board {
         writeIndexes = (max(n, m) < 10);
         if (p == 2) {
             NEXTCELL = Map.of(
-                    Cell.X, Cell.O,
-                    Cell.O, Cell.X
+                    Cell.X, Cell.O, Cell.O, Cell.X
             );
         } else if (p == 3) {
             NEXTCELL = Map.of(
-                    Cell.X, Cell.O,
-                    Cell.O, Cell.T,
-                    Cell.T, Cell.X
+                    Cell.X, Cell.O, Cell.O, Cell.T, Cell.T, Cell.X
             );
         } else if (p == 4) {
             NEXTCELL = Map.of(
-                    Cell.X, Cell.O,
-                    Cell.O, Cell.T,
-                    Cell.T, Cell.L,
-                    Cell.L, Cell.X
+                    Cell.X, Cell.O, Cell.O, Cell.T, Cell.T, Cell.L, Cell.L, Cell.X
             );
         }
     }
-
+    private void fill(int l1, int r1, int l2, int r2, boolean val, boolean mas[][]) {
+        for (int i = l1; i <= r1; i++) {
+            for (int j = l2; j <= r2; j++) {
+                mas[i][j] = val;
+            }
+        }
+    }
+    private void calcEmpty() {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (!ok[i][j]) {
+                    empty--;
+                }
+            }
+        }
+    }
     @Override
     public Position getPosition() {
         return new MnkBoard(this);
     }
-
     @Override
     public Cell getCell() {
         return turn;
@@ -109,17 +102,9 @@ public class ServerBoard implements Board {
     public void go0(IntList cur, int x, int y, int l, int r, boolean ok) {
         for (int i = l; i <= r; i++) {
             if (ok) {
-                if (cells[i][y] == turn) {
-                    cur.add(1);
-                } else {
-                    cur.add(0);
-                }
+                cur.add((cells[i][y] == turn ? 1 : 0));
             } else {
-                if (cells[x][i] == turn) {
-                    cur.add(1);
-                } else {
-                    cur.add(0);
-                }
+                cur.add((cells[x][i] == turn ? 1 : 0));
             }
         }
     }
@@ -127,11 +112,7 @@ public class ServerBoard implements Board {
         for (int i = 0; i < 2 * k + 1; i++) {
             int nx = x - k + 1 + i;
             int ny = y + (-k + 1 + i) * sign;
-            if (inField(nx, ny) && cells[nx][ny] == turn) {
-                cur.add(1);
-            } else {
-                cur.add(0);
-            }
+            cur.add((inField(nx, ny) && cells[nx][ny] == turn) ? 1 : 0);
         }
     }
     public Result makeMove(final Move move) {
@@ -159,7 +140,6 @@ public class ServerBoard implements Board {
         turn = NEXTCELL.get(turn);
         return Result.UNKNOWN;
     }
-
     private boolean check (IntList mas) {
         int cur = -1;
         int mx = 0;
@@ -176,7 +156,6 @@ public class ServerBoard implements Board {
         mx = max(mx, cur);
         return (mx == k);
     }
-
     public boolean inField(int x, int y) {
         return (x >= 0 && x < n && y >= 0 && y < m && ok[x][y]);
     }
@@ -185,11 +164,9 @@ public class ServerBoard implements Board {
                 && cells[move.getRow()][move.getColumn()] == Cell.E
                 && turn == getCell();
     }
-
     public Cell getCell(final int r, final int c) {
         return cells[r][c];
     }
-
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder(" ");

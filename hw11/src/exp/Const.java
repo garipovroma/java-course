@@ -1,7 +1,5 @@
 package exp;
 
-import java.util.Objects;
-
 public class Const implements MainExpression, DoubleExpression, TripleExpression {
     private int value;
     private double dValue;
@@ -15,7 +13,6 @@ public class Const implements MainExpression, DoubleExpression, TripleExpression
         this.value = (int)dValue;
         this.isDouble = true;
     }
-
     @Override
     public String toString() {
         if (this.isDouble) {
@@ -32,19 +29,13 @@ public class Const implements MainExpression, DoubleExpression, TripleExpression
             return Integer.toString(value);
         }
     }
-
-    @Override
-    public int getPriority() {
-        return 1;
-    }
-
     @Override
     public int evaluate(int x) {
         return this.value;
     }
     @Override
     public boolean equals(Object exp) {
-        if (exp != null && exp instanceof Const) {
+        if (exp instanceof Const) {
             return  (this.value == ((Const) exp).value);
         } else {
             return false;
@@ -54,12 +45,10 @@ public class Const implements MainExpression, DoubleExpression, TripleExpression
     public int hashCode() {
         return value;
     }
-
     @Override
     public double evaluate(double x) {
         return this.dValue;
     }
-
     @Override
     public int evaluate(int x, int y, int z) {
         return this.value;

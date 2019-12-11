@@ -14,28 +14,28 @@ public class Variable implements MainExpression, DoubleExpression, TripleExpress
         return name;
     }
     @Override
-    public int getPriority() {
-        return 1;
-    }
-    @Override
     public int evaluate(int x) {
         return x;
     }
     @Override
     public int evaluate (int x, int y, int z) {
         int result = 0;
-        if (name.equals(("x"))) {
-            result = x;
-        }  else if (name.equals("y")) {
-            result = y;
-        } else if (name.equals(("z"))) {
-            result = z;
+        switch (name) {
+            case ("x"):
+                result = x;
+                break;
+            case "y":
+                result = y;
+                break;
+            case ("z"):
+                result = z;
+                break;
         }
         return result;
     }
     @Override
     public boolean equals(Object exp) {
-        if (exp != null && exp instanceof Variable) {
+        if (exp instanceof Variable) {
             return  (this.name.equals(((Variable) exp).name));
         } else {
             return false;
@@ -43,11 +43,6 @@ public class Variable implements MainExpression, DoubleExpression, TripleExpress
     }
     @Override
     public int hashCode() {
-        /*int result = 0;
-        for (int i = 0; i < name.length(); i++) {
-            result = result * 2047 + name.charAt(i);
-        }
-        return result;*/
         return name.hashCode();
     }
 

@@ -19,7 +19,7 @@ public class Variable implements MainExpression, DoubleExpression, TripleExpress
     }
     @Override
     public int evaluate (int x, int y, int z) {
-        int result = 0;
+        int result = -1;
         switch (name) {
             case ("x"):
                 result = x;

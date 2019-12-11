@@ -34,7 +34,7 @@ public class Game {
             return no;
         } else if (result == Result.LOSE) {
             log("Player " + no + " lose");
-            return 3 - no;
+            return players.size() + 1 - no;
         } else if (result == Result.DRAW) {
             log("Draw");
             return 0;

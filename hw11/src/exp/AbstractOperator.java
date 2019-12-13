@@ -28,8 +28,8 @@ public abstract class AbstractOperator implements MainExpression {
         return (e instanceof AbstractOperator && ((AbstractOperator) e).getPriority() < this.getPriority());
     }
     private boolean needBracket(Expression e) {
-        return  (e instanceof AbstractOperator && ((this instanceof Subtract && ((AbstractOperator) e).getPriority() == 1)
-                || this instanceof Divide)) ||
+        return  (e instanceof AbstractOperator && ((this instanceof Subtract
+                && ((AbstractOperator) e).getPriority() == 1) || this instanceof Divide)) ||
                 (e instanceof Divide && this.getPriority() == 2);
     }
     public String toMiniString() {

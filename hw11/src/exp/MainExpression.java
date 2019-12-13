@@ -1,6 +1,6 @@
 package exp;
 
-public interface MainExpression extends Expression{
+public interface MainExpression extends Expression, DoubleExpression, TripleExpression {
     public String toString();
     public String toMiniString();
     public int evaluate(int x);

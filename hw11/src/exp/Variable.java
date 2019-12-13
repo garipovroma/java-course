@@ -1,6 +1,6 @@
 package exp;
 
-public class Variable implements MainExpression, DoubleExpression, TripleExpression {
+public class Variable implements MainExpression{
     private String name;
     public Variable(String name) {
         this.name = name;

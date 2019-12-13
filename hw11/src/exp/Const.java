@@ -1,6 +1,6 @@
 package exp;
 
-public class Const implements MainExpression, DoubleExpression, TripleExpression {
+public class Const implements MainExpression {
     private int value;
     private double dValue;
     private boolean isDouble = false;

@@ -1,6 +1,6 @@
 package exp;
 
-public class Add extends AbstractOperator implements DoubleExpression, TripleExpression {
+public class Add extends AbstractOperator {
     public Add (MainExpression left, MainExpression right) {
         super(left, right);
     }

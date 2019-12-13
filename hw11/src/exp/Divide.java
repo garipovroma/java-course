@@ -1,6 +1,6 @@
 package exp;
 
-public class Divide extends AbstractOperator implements DoubleExpression, TripleExpression {
+public class Divide extends AbstractOperator {
     public Divide (MainExpression left, MainExpression right) {
         super(left, right);
     }

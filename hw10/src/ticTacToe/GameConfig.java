@@ -22,7 +22,7 @@ public class GameConfig {
             if (k > min(n, m)) {
                 throw new IOException("There are mistakes in your config, edit it");
             }
-            if (n * m > 2000) {
+            if (n * m > 2000 || n * m == 0) {
                 throw new IOException("There are mistakes in your config, edit it");
             }
             int f = in.nextInt();

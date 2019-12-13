@@ -36,7 +36,7 @@ public class Const implements MainExpression {
     @Override
     public boolean equals(Object exp) {
         if (exp instanceof Const) {
-            return  (this.value == ((Const) exp).value);
+            return  (this.value == ((Const) exp).value && this.dValue == ((Const) exp).dValue);
         } else {
             return false;
         }

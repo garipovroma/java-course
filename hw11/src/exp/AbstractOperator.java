@@ -13,15 +13,27 @@ public abstract class AbstractOperator implements MainExpression {
     protected abstract String getOperator();
     protected abstract int getPriority();
     public String toString() {
+        StringBuilder sb = new StringBuilder("(");
+        sb.append(left.toString());
+        sb.append(" ");
+        sb.append(this.getOperator());
+        sb.append(" ");
+        sb.append(right.toString());
+        sb.append(")");
+        return sb.toString();/*
         String left = this.left.toString();
         String right = this.right.toString();
-        return "(" + left + " " + this.getOperator() + " " + right + ")";
+        return "(" + left + " " + this.getOperator() + " " + right + ")";*/
     }
-    private String getExpressionString(Expression e, boolean brackets) {
+    private StringBuilder getExpressionString(Expression e, boolean brackets) {
         if (brackets) {
-            return "(" + e.toMiniString() + ")";
+            StringBuilder sb = new StringBuilder("(");
+            sb.append(e.toMiniString());
+            sb.append(")");
+            return sb;
+            //return "(" + e.toMiniString() + ")";
         } else {
-            return e.toMiniString();
+            return new StringBuilder(e.toMiniString());
         }
     }
     private boolean checkPriority(Expression e) {
@@ -33,8 +45,14 @@ public abstract class AbstractOperator implements MainExpression {
                 (e instanceof Divide && this.getPriority() == 2);
     }
     public String toMiniString() {
-        return getExpressionString(this.left, checkPriority(this.left)) + " " + getOperator() + " "
-                + getExpressionString(this.right, checkPriority(this.right) || needBracket(this.right));
+        StringBuilder sb = getExpressionString(this.left, checkPriority(this.left));
+        sb.append(" ");
+        sb.append(getOperator());
+        sb.append(" ");
+        sb.append(getExpressionString(this.right, checkPriority(this.right) || needBracket(this.right)));
+        return sb.toString();
+        /*return getExpressionString(this.left, checkPriority(this.left)) + " " + getOperator() + " "
+                + getExpressionString(this.right, checkPriority(this.right) || needBracket(this.right));*/
     }
     public int evaluate(int x) {
         int left = this.left.evaluate(x);

@@ -1,2 +1,0 @@
-javac WordStatCount.java
-java -jar artifacts_wordStat_WordStatCountTest.jar

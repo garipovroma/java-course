@@ -1,2 +1,0 @@
-javac Reverse.java
-java -jar artifacts_reverse_ReverseTest.jar

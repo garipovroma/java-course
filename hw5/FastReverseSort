@@ -1,2 +1,0 @@
-javac ReverseSort.java
-java -jar artifacts_reverse_FastReverseSortTest.jar

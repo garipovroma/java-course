@@ -1,2 +1,0 @@
-javac WordStatInput.java
-java -jar artifacts_wordStat_WordStatInputTest.jar
